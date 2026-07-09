@@ -12,6 +12,6 @@ Route::get('/user', function (Request $request) {
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/tasks', [TaskController::class, 'index']);
 Route::post('/tasks', [TaskController::class, 'store']);
-Route::get('/my-task/{userId}', [TaskController::class, 'myTasks']);
+Route::get('/my-tasks/{userId}', [TaskController::class, 'myTasks']);
 Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus']);
 

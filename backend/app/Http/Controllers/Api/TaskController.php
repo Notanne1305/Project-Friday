@@ -20,7 +20,7 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'user_ids' => 'required|array',
-            'user_ids.*' => 'exits:users,id',
+            'user_ids.*' => 'exists:users,id',
         ]);
 
         $task = Task::create($validated);
@@ -38,7 +38,7 @@ class TaskController extends Controller
     public function updateStatus(Request $request, Task $task)
     {
         $validated = $request -> validate([
-            'status' => 'required|in:pending, in_progress, completed',
+            'status' => 'required|in:pending,in_progress,completed',
         ]);
 
         $task -> update($validated); 
