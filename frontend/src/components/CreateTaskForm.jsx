@@ -9,8 +9,14 @@ export default function CreateTaskForm({ onTaskCreated }){
     const [users, setUsers] = useState([]);
     const [selectedUserIds, setSelectedUserIds] = useState([]);
 
+    // useEffect (()=> {
+    //     getUsers().then((res)=> setUsers(res.data.data));
+    // }, []);
     useEffect (()=> {
-        getUsers().then((res)=> setUsers(res.data.data));
+        getUsers().then((res)=> {
+            console.log('API response:', res. data);
+            setUsers(res.data.data);
+        });
     }, []);
 
     const handleSubmit = async (e) => {
@@ -27,7 +33,7 @@ export default function CreateTaskForm({ onTaskCreated }){
             <TextField label = "Title" value={title} onChange={(e) => setTitle(e.target.value)} required /> 
             <TextField label = "Description" value={description} onChange={(e) => setDescription(e.target.value)} required /> 
             <FormControl fullWidth>
-                <InputLabel>Assign Employeed</InputLabel>
+                <InputLabel>Assign Employee</InputLabel>
                 <Select
                     multiple
                     value={selectedUserIds}

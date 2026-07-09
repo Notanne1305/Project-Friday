@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Card, CardContent, Typography } from '@mui/material';
-import { getMyTasks, updateTaskStatus } from '..sevices/taskService';
+import { getMyTasks, updateTaskStatus } from '../services/taskService';
 
 export default function MyWorkBorad({userId}) { 
     const [tasks, setTasks] = useState([]);
