@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Typography } from '@mui/material';
 import { getTasks } from '../services/taskService';
-import CreateTaskForm from '../components/CreateTaskForm';
 import KanbanBoard from '../components/KanbanBoard';
 
-export default function AdminDashboard() {
-  const [tasks, setTasks] = useState([]);
+export default function AdminDashboard({ tasksVersion }) {
+  const [tasks, setTasks] = useState([]); //dire taman bai
 
   const fetchTasks = async () => {
     const res = await getTasks();
@@ -14,18 +12,18 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [tasksVersion]);
 
   return (
     <div>
-      <Typography variant="h5" sx={{ px: 3, pt: 3, fontWeight: 700 }}>
+      {/* <Typography variant="h5" sx={{ px: 3, pt: 3, fontWeight: 700 }}>
         Admin Dashboard
-      </Typography>
-      <div style={{ padding: '0 24px' }}>
-        <CreateTaskForm onTaskCreated={fetchTasks} />
-      </div>
-      {/* Admin board is read-only — no dragging */}
-      <KanbanBoard tasks={tasks} draggable={false} />
+      </Typography> */}
+
+      <KanbanBoard
+        tasks={tasks}
+        draggable={false}
+      />
     </div>
   );
 }
