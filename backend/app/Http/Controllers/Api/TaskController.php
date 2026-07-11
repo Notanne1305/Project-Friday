@@ -19,11 +19,26 @@ class TaskController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'priority' => 'required|in:low,medium,high',
+            'deadline' => 'nullable|date',
+            'image' => 'nullable|image|max:2048',
             'user_ids' => 'required|array',
             'user_ids.*' => 'exists:users,id',
         ]);
 
-        $task = Task::create($validated);
+        $imagePath = null;
+        if ($request -> hasFile('image')){
+            $imagePath = $request->file('image')->store('tasks/images','public');
+        }
+
+        $task = Task::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'status' => 'pending',
+            'image_url' => $imagePath,
+            'priority' => $validated['priority'],
+            'deadline' => $validated['deadline'],
+        ]);
         $task -> users()->sync($validated['user_ids']);
 
         return new TaskResource($task -> load('users'));
