@@ -53,17 +53,9 @@ The backend follows Laravel's MVC pattern:
 
 The project uses a many-to-many relationship between users and tasks. A user can receive many tasks, and a task can be assigned to many users.
 
-```text
-users                    task_user                    tasks
------                    ---------                    -----
-id <--------------------- user_id                      id
-name                     task_id ------------------->  title
-email                                                -> description
-password                                             -> status
-                                                     -> image_url
-                                                     -> priority
-                                                     -> deadline
-```
+<p align="center">
+  <img src="docs/project-friday-erd.png" alt="Project Friday entity relationship diagram showing Tasks, Task User, and Users" width="100%">
+</p>
 
 The `task_user` table is the pivot table. Laravel defines this relationship with `belongsToMany()` in both the `User` and `Task` models. When a task is created, `sync()` saves the selected employee IDs to the pivot table.
 
@@ -159,5 +151,4 @@ Vite will show the local URL for the React application, usually `http://localhos
 - Ensure only an assigned employee can update a task's status.
 - Add validation feedback directly in the frontend form.
 - Add task editing, deletion, filtering, and search.
-
 
