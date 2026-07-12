@@ -160,6 +160,4 @@ Vite will show the local URL for the React application, usually `http://localhos
 - Add validation feedback directly in the frontend form.
 - Add task editing, deletion, filtering, and search.
 
-## License
 
-This project is created for educational purposes.
