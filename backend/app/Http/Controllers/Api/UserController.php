@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return UserResource::collection(User::role ('employee')->get());
+        return UserResource::collection(User::role('employee')->get());
     }
 
     public function store(Request $request)

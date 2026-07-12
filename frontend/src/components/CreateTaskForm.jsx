@@ -21,7 +21,7 @@ const modalStyle = {
 
 export default function CreateTaskForm({ open, onClose, onTaskCreated }) {
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('')
+    const [description, setDescription] = useState('');
     const [priority, setPriority] = useState('medium');
     const [deadline, setDeadline] = useState('');
     const [image, setImage] = useState(null);
@@ -59,17 +59,27 @@ export default function CreateTaskForm({ open, onClose, onTaskCreated }) {
             console.error(err);
             alert('Failed to create task.');
         }
-
     };
 
     return (
         <Modal open={open} onClose={onClose}>
             <Box sx={modalStyle}>
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                    <Typography variant="h6" sx={{ fontWeight: 800 }}>
+                {/* Header Container with relative anchor layout */}
+                <Box sx={{ position: 'relative', mb: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 800, color:'#1e3a8a'}}>
                         CREATE NEW TASK
                     </Typography>
-                    <IconButton onClick={onClose} size="small">
+                    {/* Absolute positioning pushes this to the clean upper-right corner */}
+                    <IconButton 
+                        onClick={onClose} 
+                        size="small"
+                        sx={{
+                            position: 'absolute',
+                            top: -8,
+                            right: -8,
+                            color: 'text.secondary'
+                        }}
+                    >
                         <CloseIcon />
                     </IconButton>
                 </Box>
@@ -97,26 +107,31 @@ export default function CreateTaskForm({ open, onClose, onTaskCreated }) {
                         </Select>
                     </FormControl>
 
-                    <TextField type="date" label="Deadline" InputLabelProps={{ shrink: true }} value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+                    {/* slotProps explicitly forces the placeholder and label text separation */}
+                    <TextField 
+                        type="date" 
+                        label="Deadline" 
+                        value={deadline} 
+                        onChange={(e) => setDeadline(e.target.value)} 
+                        slotProps={{ inputLabel: { shrink: true } }}
+                    />
 
                     <Button variant="outlined" component="label">
                         Upload Task Image
                         <input type="file" hidden accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
                     </Button>
-                    {image && <span>{image.name}</span>}
-
-
+                    {image && <Typography variant="caption" sx={{ mt: -1, color: 'text.secondary' }}>{image.name}</Typography>}
 
                     <FormControl>
                         <InputLabel>Assign Employee</InputLabel>
                         <Select multiple value={selectedUserIds} onChange={(e) => setSelectedUserIds(e.target.value)} label="Assign Employee">
                             {users.map((user) => (
-                                <MenuItem key={user.id} value={user.id} > {user.name}</MenuItem>
-                            ))}
+                                <MenuItem key={user.id} value={user.id}> {user.name}</MenuItem>
+                            ))} 
                         </Select>
                     </FormControl>
 
-                    <Button type="submit" variant="contained" color="primary">Create Task</Button>
+                    <Button type="submit" variant="contained" color="primary" sx={{ mt: 1 }}>Create Task</Button>
                 </form>
             </Box>
         </Modal>

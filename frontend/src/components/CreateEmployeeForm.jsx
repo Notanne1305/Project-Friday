@@ -23,8 +23,16 @@ export default function CreateEmployeeForm({ open, onClose, onEmployeeCreated })
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const passwordTooShort = password.length > 0 && password.length < 8;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (password.length < 8) {
+            alert('Password must be at least 8 characters.');
+            return;
+        }
+
         try {
             await createUser({ name, email, password });
             setName('');
@@ -33,22 +41,27 @@ export default function CreateEmployeeForm({ open, onClose, onEmployeeCreated })
             if (onEmployeeCreated) onEmployeeCreated();
             onClose();
         } catch (err) {
-            console.error(err);
-            alert('Failed to add employee. Please check if email already exists.');
+            const errorMessage = err.response?.data?.message || 'Failed to add employee.';
+            alert(errorMessage);
         }
     };
 
     return (
         <Modal open={open} onClose={onClose}>
             <Box sx={modalStyle}>
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography variant="h6" sx={{ fontWeight: 800 }}>
+                <Box sx={{ position: 'relative', mb: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 800, color: '#1e3a8a' }}>
                         ADD EMPLOYEE
                     </Typography>
-                    <IconButton onClick={onClose} size="small">
+                    <IconButton
+                        onClick={onClose}
+                        size="small"
+                        sx={{ position: 'absolute', top: -8, right: -8, color: 'text.secondary' }}
+                    >
                         <CloseIcon />
                     </IconButton>
                 </Box>
+
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <TextField
                         label="Name"
@@ -75,12 +88,10 @@ export default function CreateEmployeeForm({ open, onClose, onEmployeeCreated })
                         required
                         fullWidth
                         variant="outlined"
+                        error={passwordTooShort}
+                        helperText={passwordTooShort ? 'Password must be at least 8 characters' : 'Must be at least 8 characters'}
                     />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                    >
+                    <Button type="submit" variant="contained" color="primary" sx={{ mt: 1 }}>
                         ADD EMPLOYEE
                     </Button>
                 </form>

@@ -25,7 +25,7 @@ export default function MyWorkBoard({ userId }) {
 
     return (
         <div>
-            <Typography variant="h5" sx={{ px: 3, pt: 3, fontWeight: 700 }}>
+            <Typography variant="h5" sx={{ px: 3, pt: 3, fontWeight: 700, color:'#1e3a8a' }}>
                 My Work Board
             </Typography>
             <KanbanBoard
